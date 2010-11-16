@@ -1,18 +1,23 @@
 #!/bin/sh
 
+########################################
 # Created by John Alberts
-# Last modified: 10/27/2009
+# Last modified: 11/16/2010
 # 
 # Error Codes:
 #  1 - Not running as root
 #  2 - Invalid hostname
-#  3 - Failed to get rubygem-chef rpm
-#  4 - Failed to get gem sources
-#  5 - Failed to find Gems source extraction directory
+#  3 - Failed to get remove Ruby OS packages
+#  4 - Failed to compile and install Ruby
+#  5 - Failed to install Chef gems.
+#
+# NOTES:
+#  This only works on CentOS 5.  Only tested on x86_64
+#
+#########################################
 
 
-GEM_SOURCE_URL="http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz"
-
+RUBY_SOURCE_URL="ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p0.tar.gz"
 
 if ! ( whoami | grep root > /dev/null 2>&1); then
   echo "YOU MUST BE ROOT TO RUN THIS SCRIPT"'!'
@@ -24,52 +29,49 @@ if ! ( ping -c1 -q `hostname -f` > /dev/null 2>&1 ); then
   exit 2
 fi
 
-echo "Installing Ruby dependencies..."
-
-yum install -y ruby ruby-devel ruby-docs ruby-ri ruby-irb ruby-rdoc
+echo "Removing already installed Ruby OS packages..."
+yum -y erase $(yum list | grep installed | grep ruby | sed -n 's/\([^.]*\)\.\(x86_64\|i386\).*$/\1/p' | tr '\n' ' ')
 RETVAL=$?
 
-echo
-echo
+echo;echo
+if [[ ${RETVAL} -ne 0 ]]; then
+  echo "Failed to remove Ruby OS packages"'!'
+  exit 3
+fi
+
+echo "Installing Ruby and dependencies..."
+yum -y install gcc gcc-c++
+
+mkdir /tmp/sources
+cd /tmp/sources
+
+wget "${RUBY_SOURCE_URL}"
+tar -xvzf $(basename ${RUBY_SOURCE_URL})
+cd $(basename ${RUBY_SOURCE_URL/.tar.gz})
+./configure
+make
+make install
+RETVAL=$?
+
+echo;echo
 
 if [[ ${RETVAL} -ne 0 ]]; then
   echo "RUBY INSTALLATION FAILED"'!'
-  exit 3
+  exit 4
 fi
 
 echo "Installing Ruby gems from source..."
 
-wget ${GEM_SOURCE_URL} -O /tmp/gemsource.tgz
+echo 'gem: --no-ri --no-rdoc' > /root/.gemrc
+
+gem install chef
 RETVAL=$?
+echo;echo
 
 if [[ ${RETVAL} -ne 0 ]]; then
-  echo "wget failed to retrieve gem source tarball using:"
-  echo "  ${GEM_SOURCE_URL}"
-  exit 4
-else
-  echo "Fetched sources"
-  echo "Extracting and installing Gems..."
-fi
-
-tar zxf /tmp/gemsource.tgz -C /tmp
-
-GEMS_VER=`basename ${GEM_SOURCE_URL} | sed  's/\.tgz//'`
-echo "Extracted Ruby gems version: ${GEMS_VER}"
-echo "Installing gems"
-echo "This may take a while..."
-
-if [[ ! -d /tmp/${GEMS_VER} ]]; then
-  echo "Couldn't find Gems extraction directory, /tmp/${GEMS_VER}"
+  echo "CHEF INSTALLATION FAILED"'!'
   exit 5
 fi
-
-
-ruby /tmp/${GEMS_VER}/setup.rb
-
-echo "Gems installation complete"
-echo "Adding opscode sources"
-
-gem sources -a http://gems.opscode.com
 
 echo "Installation completed."
 
