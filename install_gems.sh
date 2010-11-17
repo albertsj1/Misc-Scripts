@@ -9,7 +9,6 @@
 #  2 - Invalid hostname
 #  3 - Failed to get remove Ruby OS packages
 #  4 - Failed to compile and install Ruby
-#  5 - Failed to install Chef gems.
 #
 # NOTES:
 #  This only works on CentOS 5.  Only tested on x86_64
@@ -60,18 +59,7 @@ if [[ ${RETVAL} -ne 0 ]]; then
   exit 4
 fi
 
-echo "Installing Ruby gems from source..."
-
 echo 'gem: --no-ri --no-rdoc' > /root/.gemrc
-
-gem install chef
-RETVAL=$?
-echo;echo
-
-if [[ ${RETVAL} -ne 0 ]]; then
-  echo "CHEF INSTALLATION FAILED"'!'
-  exit 5
-fi
 
 echo "Installation completed."
 
