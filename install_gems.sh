@@ -49,12 +49,16 @@ yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel
 mkdir /tmp/sources
 cd /tmp/sources
 
+
+# Get # cpu's to make this faster
+CPUS="$(grep processor /proc/cpuinfo | wc -l)"
+
 wget "${RUBY_SOURCE_URL}"
 tar -xvzf $(basename ${RUBY_SOURCE_URL})
 cd $(basename ${RUBY_SOURCE_URL/.tar.gz})
 ./configure
-make
-make install
+make -j $CPUS
+make -j $CPUS install
 RETVAL=$?
 
 echo;echo
