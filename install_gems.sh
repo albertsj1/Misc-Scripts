@@ -16,7 +16,7 @@
 #########################################
 
 
-RUBY_SOURCE_URL="ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p0.tar.gz"
+RUBY_SOURCE_URL="ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p136.tar.gz"
 
 if ! ( whoami | grep root > /dev/null 2>&1); then
   echo "YOU MUST BE ROOT TO RUN THIS SCRIPT"'!'
