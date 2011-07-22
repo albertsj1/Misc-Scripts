@@ -56,7 +56,9 @@ cd /tmp/sources
 
 
 # Get # cpu's to make this faster
-CPUS="$(grep processor /proc/cpuinfo | wc -l)"
+if [[ ! $CPUS ]]; then
+  CPUS="$(grep processor /proc/cpuinfo | wc -l)"
+fi
 
 wget "${RUBY_SOURCE_URL}"
 tar -xvzf $(basename ${RUBY_SOURCE_URL})
