@@ -49,7 +49,7 @@ if [[ ${RETVAL} -ne 0 ]]; then
 fi
 
 echo "Installing Ruby and dependencies..."
-yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel
+yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make
 
 mkdir /tmp/sources
 cd /tmp/sources
