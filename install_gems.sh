@@ -47,6 +47,11 @@ if [[ ${RETVAL} -ne 0 ]]; then
   echo "Failed to remove Ruby OS packages"'!'
   exit 3
 fi
+echo "Updating glibc glibc-common glibc-headers glibc-devel"
+echo "This is necessary to work around a bug"
+echo "https://bugzilla.redhat.com/show_bug.cgi?id=228430"
+
+yum -y update glibc glibc-common glibc-headers glibc-devel
 
 echo "Installing Ruby and dependencies..."
 yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make
