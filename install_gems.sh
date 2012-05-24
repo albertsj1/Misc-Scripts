@@ -53,6 +53,10 @@ echo "https://bugzilla.redhat.com/show_bug.cgi?id=228430"
 
 yum -y update glibc glibc-common glibc-headers glibc-devel
 
+echo "Updating hal and then yum otherwise Chef fails for really old versions of yum"
+yum -y update hal
+yum -y update yum
+
 echo "Installing Ruby and dependencies..."
 yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make autoconf flex bison
 
