@@ -54,7 +54,7 @@ echo "https://bugzilla.redhat.com/show_bug.cgi?id=228430"
 yum -y update glibc glibc-common glibc-headers glibc-devel
 
 echo "Installing Ruby and dependencies..."
-yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make
+yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make autoconf flex bison
 
 mkdir /tmp/sources
 cd /tmp/sources
