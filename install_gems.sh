@@ -59,7 +59,7 @@ yum -y update hal
 yum -y update yum
 
 echo "Installing Ruby and dependencies..."
-yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make autoconf flex bison libyaml
+yum -y install gcc gcc-c++ zlib-devel openssl-devel readline-devel make autoconf flex bison libyaml-devel libffi-devel
 
 mkdir /tmp/sources
 cd /tmp/sources
