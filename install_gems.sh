@@ -21,7 +21,7 @@
 #RUBY_SOURCE_URL="http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p180.tar.gz"
 #RUBY_SOURCE_URL="http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz"
 # The below URL only works from within the exlibrisgroup network.  Anyone else should use the URL above.
-RUBY_SOURCE_URL="https://helpdesk.hosted.exlibrisgroup.com/downloads/ruby-1.9.3-p194.tar.gz"
+RUBY_SOURCE_URL="https://helpdesk.hosted.exlibrisgroup.com/downloads/ruby-1.9.3-p392.tar.gz"
 
 
 if ! ( whoami | grep root > /dev/null 2>&1); then
