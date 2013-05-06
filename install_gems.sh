@@ -11,7 +11,7 @@
 #  4 - Failed to compile and install Ruby
 #
 # NOTES:
-#  This only works on CentOS 5.  Only tested on x86_64
+#  Confirmed to work on centos 5 and 6, x86_64
 #
 #########################################
 
