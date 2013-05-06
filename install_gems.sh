@@ -35,7 +35,7 @@ if ! ( ping -c1 -q `hostname -f` > /dev/null 2>&1 ); then
 fi
 
 echo "Removing already installed Ruby OS packages..."
-PKGLIST="$(yum list | grep installed | grep ruby | sed -n 's/\([^.]*\)\.\(x86_64\|i386\).*$/\1/p' | tr '\n' ' ')"
+PKGLIST="$(yum list installed | grep ruby | sed -n 's/\([^.]*\)\.\(x86_64\|i386\).*$/\1/p' | tr '\n' ' ')"
 if [[ $PKGLIST != "" ]]; then
   yum -y erase $PKGLIST
   RETVAL=$?
